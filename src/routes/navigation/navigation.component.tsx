@@ -1,22 +1,14 @@
-import { Fragment, useContext, useEffect } from 'react';
+import { Fragment } from 'react';
 import { Outlet, Link } from 'react-router-dom';
-import { SearchTextContext } from '../../context/searchText.context';
-import { SearchFieldContextType } from '../../@types/searchField';
-import { ProductContextType } from '../../@types/product';
-import { ProductsContext } from '../../context/products.context';
 
 
 import SearchBox from '../../components/search-box/search-box.component';
-import { getMainSearchData } from '../../utils/data.utils';
-import { Paging } from '../../@types/product';
-import { ProductFilter } from '../../@types/productFilter';
+
 import CategoriesDropdown from '../../components/categories-dropdown/categories-dropdown.component';
-import { CategoriesContextType } from '../../@types/categories';
-import { CategoriesContext } from '../../context/categories.context';
+
 
 
 const Navigation = () => {
-
 
 
     return (
