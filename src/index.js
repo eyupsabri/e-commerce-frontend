@@ -5,12 +5,21 @@ import { BrowserRouter } from 'react-router-dom';
 // import './index.css';
 import App from './App';
 import reportWebVitals from './reportWebVitals';
+import { SearchTextProvider } from './context/searchText.context';
+import { ProductsContextProvider } from './context/products.context';
+import { CategoriesDropdownProvider } from './context/categories-dropdown.context'
 
 const root = ReactDOM.createRoot(document.getElementById('root'));
 root.render(
   <React.StrictMode>
     <BrowserRouter>
-      <App />
+      <SearchTextProvider>
+        <CategoriesDropdownProvider>
+          <ProductsContextProvider>
+            <App />
+          </ProductsContextProvider>
+        </CategoriesDropdownProvider>
+      </SearchTextProvider>
     </BrowserRouter>
   </React.StrictMode>
 );

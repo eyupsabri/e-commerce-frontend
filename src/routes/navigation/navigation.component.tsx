@@ -1,7 +1,41 @@
-import { Fragment } from 'react';
+import { Fragment, useContext } from 'react';
 import { Outlet, Link } from 'react-router-dom';
+import { SearchTextContext } from '../../context/searchText.context';
+import { SearchFieldContextType } from '../../@types/searchField';
+import { ProductContextType } from '../../@types/product';
+import { ProductsContext } from '../../context/products.context';
+
+
+import SearchBox from '../../components/search-box/search-box.component';
+import { getMainSearchData } from '../../utils/data.utils';
+import { Product, Paging } from '../../@types/product';
+import { ProductFilter } from '../../@types/productFilter';
+import CategoriesDropdown from '../../components/categories-dropdown/categories-dropdown.component';
 
 const Navigation = () => {
+    const { mainSearchField, setMainSearchField } = useContext(SearchTextContext) as SearchFieldContextType;
+    const { setProductsHelper } = useContext(ProductsContext) as ProductContextType
+
+    const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+        const { value } = event.target;
+        setMainSearchField(value);
+    }
+
+    const handleClick = async (event: React.MouseEvent<HTMLAnchorElement> | undefined) => {
+        const filter: ProductFilter = {
+            sortBy: "productName",
+            ProductName: mainSearchField
+        };
+        //const pr = await getMainSearchData<Product[] | Paging>("https://localhost:7198/api/Search", filter);
+        const pr = await getMainSearchData<Paging>("https://localhost:7198/api/Search", filter);
+
+        setProductsHelper(pr.dtos);
+        console.log(pr);
+        //Burada API' a tüm kategoriler içinde search için fetch yapıcam
+        //
+    }
+
+    console.log(mainSearchField);
     return (
         <Fragment>
             <div className="container-fluid">
@@ -9,28 +43,28 @@ const Navigation = () => {
                     <div className="col-lg-6 d-none d-lg-block">
                         <div className="d-inline-flex align-items-center">
 
-                            <span className="text-dark" href="">FAQs</span>
+                            <span className="text-dark" >FAQs</span>
                             <span className="text-muted px-2">|</span>
-                            <span className="text-dark" href="">Help</span>
+                            <span className="text-dark" >Help</span>
                             <span className="text-muted px-2">|</span>
-                            <span className="text-dark" href="">Support</span>
+                            <span className="text-dark" >Support</span>
                         </div>
                     </div>
                     <div className="col-lg-6 text-center text-lg-right">
                         <div className="d-inline-flex align-items-center">
-                            <span className="text-dark px-2" href="">
+                            <span className="text-dark px-2" >
                                 <i className="fab fa-facebook-f"></i>
                             </span>
-                            <span className="text-dark px-2" href="">
+                            <span className="text-dark px-2" >
                                 <i className="fab fa-twitter"></i>
                             </span>
-                            <span className="text-dark px-2" href="">
+                            <span className="text-dark px-2" >
                                 <i className="fab fa-linkedin-in"></i>
                             </span>
-                            <span className="text-dark px-2" href="">
+                            <span className="text-dark px-2" >
                                 <i className="fab fa-instagram"></i>
                             </span>
-                            <span className="text-dark pl-2" href="">
+                            <span className="text-dark pl-2" >
                                 <i className="fab fa-youtube"></i>
                             </span>
                         </div>
@@ -47,19 +81,12 @@ const Navigation = () => {
                     <div className="col-lg-6 col-6 text-left">
 
                         {/* Burası tüm kategorilerde arama yapıyor */}
-                        <form className="input-group" >
-                            <input type="text" className="form-control" placeholder="Search for products" name="ProductName" />
-                            <div className="input-group-append">
-                                <span className="input-group-text bg-transparent text-primary">
-                                    <button className="fa fa-search" type="submit" style={{ border: 0, color: "#D19C97", backgroundColor: "transparent" }}></button>
-                                </span>
-                            </div>
-                        </form>
+                        <SearchBox onChangeHandler={handleChange} onClickHandler={handleClick} />
 
                     </div>
                     <div className="col-lg-3 col-6 text-right">
                         {/* işlevsiz yan tarafta duran kalp */}
-                        <span href="" className="btn border">
+                        <span className="btn border">
                             <i className="fas fa-heart text-primary"></i>
                             <span className="badge">0</span>
                         </span>
@@ -80,24 +107,7 @@ const Navigation = () => {
                 <div className="row border-top px-xl-5">
 
                     {/* Categories dropdown burayı react ile toggle yapacağım */}
-                    {/* <div className="col-lg-3 d-none d-lg-block">
-                    <a className="btn shadow-none d-flex align-items-center justify-content-between bg-primary text-white w-100" data-toggle="collapse" href="#navbar-vertical" style="height: 65px; margin-top: -1px; padding: 0 30px;">
-                        <h6 className="m-0">Categories</h6>
-                        <i className="fa fa-angle-down text-dark"></i>
-                    </a>
-                    <nav className="collapse position-absolute navbar navbar-vertical navbar-light align-items-start p-0 border border-top-0 border-bottom-0 bg-light" id="navbar-vertical" style="width: calc(100% - 30px); z-index: 1;">
-                        <div className="navbar-nav w-100 overflow-hidden">
-    
-    
-                            @foreach (CategoryResponse cat in ViewBag.categories)
-                            {
-                                <a href="~/Products/Index?CategoryId=@cat.CategoryId" className="nav-item nav-link">@cat.CategoryName</a>
-                            }
-    
-    
-                        </div>
-                    </nav>
-                </div> */}
+                    <CategoriesDropdown />
 
                     {/* yan kısımdaki home shop shop detail vs linkleri. Eger Sayfa Ufalırsa dropdown a donusuo*/}
                     {/* <div className="col-lg-9">
@@ -168,7 +178,7 @@ const Navigation = () => {
             <div className="container-fluid bg-secondary text-dark mt-5 pt-5">
                 <div className="row px-xl-5 pt-5">
                     <div className="col-lg-4 col-md-12 mb-5 pr-3 pr-xl-5">
-                        <span href="" className="text-decoration-none">
+                        <span className="text-decoration-none">
                             <h1 className="mb-4 display-5 font-weight-semi-bold"><span className="text-primary font-weight-bold border border-white px-3 mr-1">E</span>Shopper</h1>
                         </span>
                         <p>Dolore erat dolor sit lorem vero amet. Sed sit lorem magna, ipsum no sit erat lorem et magna ipsum dolore amet erat.</p>
@@ -205,11 +215,11 @@ const Navigation = () => {
                                 {/* Burayla elleşmiom */}
                                 <form action="">
                                     <div className="form-group">
-                                        <input type="text" className="form-control border-0 py-4" placeholder="Your Name" required="required" />
+                                        <input type="text" className="form-control border-0 py-4" placeholder="Your Name" />
                                     </div>
                                     <div className="form-group">
                                         <input type="email" className="form-control border-0 py-4" placeholder="Your Email"
-                                            required="required" />
+                                        />
                                     </div>
                                     <div>
                                         <button className="btn btn-primary btn-block border-0 py-3" type="submit">Subscribe Now</button>
@@ -222,9 +232,9 @@ const Navigation = () => {
                 <div className="row border-top border-light mx-xl-5 py-4">
                     <div className="col-md-6 px-xl-0">
                         <p className="mb-md-0 text-center text-md-left text-dark">
-                            &copy; <span className="text-dark font-weight-semi-bold" href="#">Your Site Name</span>. All Rights Reserved. Designed
+                            &copy; <span className="text-dark font-weight-semi-bold" >Your Site Name</span>. All Rights Reserved. Designed
                             by
-                            <span className="text-dark font-weight-semi-bold" href="https://htmlcodex.com">HTML Codex</span>
+                            <a className="text-dark font-weight-semi-bold" href="https://htmlcodex.com">HTML Codex</a>
                         </p>
                     </div>
                     <div className="col-md-6 px-xl-0 text-center text-md-right">
@@ -233,7 +243,7 @@ const Navigation = () => {
                 </div>
             </div>
 
-            <span href="#" className="btn btn-primary back-to-top"><i className="fa fa-angle-double-up"></i></span>
+            <span className="btn btn-primary back-to-top"><i className="fa fa-angle-double-up"></i></span>
 
 
             {/* <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.bundle.min.js"></script> */}
