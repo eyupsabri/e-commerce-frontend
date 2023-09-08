@@ -1,4 +1,4 @@
-import { Fragment, useContext } from 'react';
+import { Fragment, useContext, useEffect } from 'react';
 import { Outlet, Link } from 'react-router-dom';
 import { SearchTextContext } from '../../context/searchText.context';
 import { SearchFieldContextType } from '../../@types/searchField';
@@ -8,34 +8,17 @@ import { ProductsContext } from '../../context/products.context';
 
 import SearchBox from '../../components/search-box/search-box.component';
 import { getMainSearchData } from '../../utils/data.utils';
-import { Product, Paging } from '../../@types/product';
+import { Paging } from '../../@types/product';
 import { ProductFilter } from '../../@types/productFilter';
 import CategoriesDropdown from '../../components/categories-dropdown/categories-dropdown.component';
+import { CategoriesContextType } from '../../@types/categories';
+import { CategoriesContext } from '../../context/categories.context';
+
 
 const Navigation = () => {
-    const { mainSearchField, setMainSearchField } = useContext(SearchTextContext) as SearchFieldContextType;
-    const { setProductsHelper } = useContext(ProductsContext) as ProductContextType
 
-    const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-        const { value } = event.target;
-        setMainSearchField(value);
-    }
 
-    const handleClick = async (event: React.MouseEvent<HTMLAnchorElement> | undefined) => {
-        const filter: ProductFilter = {
-            sortBy: "productName",
-            ProductName: mainSearchField
-        };
-        //const pr = await getMainSearchData<Product[] | Paging>("https://localhost:7198/api/Search", filter);
-        const pr = await getMainSearchData<Paging>("https://localhost:7198/api/Search", filter);
 
-        setProductsHelper(pr.dtos);
-        console.log(pr);
-        //Burada API' a tüm kategoriler içinde search için fetch yapıcam
-        //
-    }
-
-    console.log(mainSearchField);
     return (
         <Fragment>
             <div className="container-fluid">
@@ -81,7 +64,7 @@ const Navigation = () => {
                     <div className="col-lg-6 col-6 text-left">
 
                         {/* Burası tüm kategorilerde arama yapıyor */}
-                        <SearchBox onChangeHandler={handleChange} onClickHandler={handleClick} />
+                        <SearchBox />
 
                     </div>
                     <div className="col-lg-3 col-6 text-right">

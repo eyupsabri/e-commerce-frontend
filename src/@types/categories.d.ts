@@ -10,3 +10,8 @@ export type Category = {
     ImageGuid: string;
 }
 
+export type CategoriesContextType = {
+    cats: Category[] | null;
+    catsHelper: () => void;
+}
+

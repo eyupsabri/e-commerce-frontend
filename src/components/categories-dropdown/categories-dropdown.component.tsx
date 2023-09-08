@@ -1,25 +1,30 @@
-import { Fragment, useContext, useEffect, useState } from "react";
+import { useContext, useEffect, useState } from "react";
 import { CategoriesDropdownContext } from "../../context/categories-dropdown.context";
 import { CategoriesDropdownContextType } from "../../@types/categories";
 import { getCategoriesData } from "../../utils/data.utils";
 import { Category } from "../../@types/categories";
+import { CategoriesContext } from "../../context/categories.context";
+import { CategoriesContextType } from "../../@types/categories";
 
+type Props = {
+    cats: Category[] | null;
+}
 
 const CategoriesDropdown = () => {
     const { isOpen, isOpenHelper } = useContext(CategoriesDropdownContext) as CategoriesDropdownContextType
     const onClickHandler = () => {
         isOpenHelper(isOpen);
     }
-    const [cats, setCats] = useState<Category[] | null>(null);
+    const { cats, catsHelper } = useContext(CategoriesContext) as CategoriesContextType
+
     useEffect(() => {
         const innerFunc = async () => {
-            const temp = await getCategoriesData<Category[]>("https://localhost:7198/api/Categories");
-
-            setCats([...temp]);
+            await catsHelper();
         }
         innerFunc();
 
-    }, [isOpen]);
+    }, []);
+
 
     console.log(cats);
     return (

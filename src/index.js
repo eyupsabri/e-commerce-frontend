@@ -8,17 +8,20 @@ import reportWebVitals from './reportWebVitals';
 import { SearchTextProvider } from './context/searchText.context';
 import { ProductsContextProvider } from './context/products.context';
 import { CategoriesDropdownProvider } from './context/categories-dropdown.context'
+import { CategoriesContextProvider } from './context/categories.context';
 
 const root = ReactDOM.createRoot(document.getElementById('root'));
 root.render(
   <React.StrictMode>
     <BrowserRouter>
       <SearchTextProvider>
-        <CategoriesDropdownProvider>
-          <ProductsContextProvider>
-            <App />
-          </ProductsContextProvider>
-        </CategoriesDropdownProvider>
+        <CategoriesContextProvider>
+          <CategoriesDropdownProvider>
+            <ProductsContextProvider>
+              <App />
+            </ProductsContextProvider>
+          </CategoriesDropdownProvider>
+        </CategoriesContextProvider>
       </SearchTextProvider>
     </BrowserRouter>
   </React.StrictMode>
