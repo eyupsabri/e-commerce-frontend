@@ -2,6 +2,7 @@ import { Fragment } from 'react';
 import { Outlet, Link } from 'react-router-dom';
 
 
+
 import SearchBox from '../../components/search-box/search-box.component';
 
 import CategoriesDropdown from '../../components/categories-dropdown/categories-dropdown.component';
@@ -9,7 +10,6 @@ import CategoriesDropdown from '../../components/categories-dropdown/categories-
 
 
 const Navigation = () => {
-
 
     return (
         <Fragment>
@@ -188,7 +188,7 @@ const Navigation = () => {
                             <div className="col-md-4 mb-5">
                                 <h5 className="font-weight-bold text-dark mb-4">Newsletter</h5>
                                 {/* Burayla elleşmiom */}
-                                <form action="">
+                                <div >
                                     <div className="form-group">
                                         <input type="text" className="form-control border-0 py-4" placeholder="Your Name" />
                                     </div>
@@ -199,7 +199,7 @@ const Navigation = () => {
                                     <div>
                                         <button className="btn btn-primary btn-block border-0 py-3" type="submit">Subscribe Now</button>
                                     </div>
-                                </form>
+                                </div>
                             </div>
                         </div>
                     </div>

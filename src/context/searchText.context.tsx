@@ -9,9 +9,9 @@ interface Props {
 export const SearchTextContext = createContext<SearchFieldContextType | null>(null);
 
 export const SearchTextProvider = ({ children }: Props) => {
-    const [mainSearchField, setSearchField] = useState("");
-    const setMainSearchField = (mainSearchField: string) => {
-        setSearchField(mainSearchField);
+    const [mainSearchField, setSearchField] = useState<string>("");
+    const setMainSearchField = (field: string) => {
+        setSearchField(field);
     }
 
     return (

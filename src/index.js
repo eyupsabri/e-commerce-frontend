@@ -9,19 +9,22 @@ import { SearchTextProvider } from './context/searchText.context';
 import { ProductsContextProvider } from './context/products.context';
 import { CategoriesDropdownProvider } from './context/categories-dropdown.context'
 import { CategoriesContextProvider } from './context/categories.context';
+import { FilterContextProvider } from './context/filter.context';
 
 const root = ReactDOM.createRoot(document.getElementById('root'));
 root.render(
   <React.StrictMode>
     <BrowserRouter>
       <SearchTextProvider>
-        <CategoriesContextProvider>
-          <CategoriesDropdownProvider>
-            <ProductsContextProvider>
-              <App />
-            </ProductsContextProvider>
-          </CategoriesDropdownProvider>
-        </CategoriesContextProvider>
+        <FilterContextProvider>
+          <CategoriesContextProvider>
+            <CategoriesDropdownProvider>
+              <ProductsContextProvider>
+                <App />
+              </ProductsContextProvider>
+            </CategoriesDropdownProvider>
+          </CategoriesContextProvider>
+        </FilterContextProvider>
       </SearchTextProvider>
     </BrowserRouter>
   </React.StrictMode>

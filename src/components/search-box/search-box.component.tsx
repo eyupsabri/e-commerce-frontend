@@ -1,12 +1,12 @@
 import { ChangeEventHandler, MouseEventHandler, useContext } from "react";
-import { Link } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import { SearchTextContext } from "../../context/searchText.context";
-import { SearchFieldContextType } from "../../@types/searchField";
-import { ProductsContext } from "../../context/products.context";
-import { ProductContextType } from "../../@types/product";
+import { FilterContextType, SearchFieldContextType } from "../../@types/searchField";
+
 import { ProductFilter } from "../../@types/productFilter";
-import { getMainSearchData } from "../../utils/data.utils";
-import { Paging } from "../../@types/product";
+
+import { FilterContext } from "../../context/filter.context";
+import { buildQuery } from "../../utils/data.utils";
 
 // type SearchBox = {
 //     onChangeHandler: ChangeEventHandler<HTMLInputElement>;
@@ -15,35 +15,43 @@ import { Paging } from "../../@types/product";
 
 const SearchBox = () => {
     const { mainSearchField, setMainSearchField } = useContext(SearchTextContext) as SearchFieldContextType;
-    const { setProductsHelper } = useContext(ProductsContext) as ProductContextType
+    const { queryFilterHelper } = useContext(FilterContext) as FilterContextType
+    const navigate = useNavigate();
+
+
+
     const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
         const { value } = event.target;
         setMainSearchField(value);
 
     }
     console.log(mainSearchField);
-    const handleClick = async (event: React.MouseEvent<HTMLAnchorElement> | undefined) => {
+
+    const handleClick = async () => {
         const filter: ProductFilter = {
             sortBy: "productName",
             ProductName: mainSearchField
         };
+        const query = buildQuery(filter);
+        queryFilterHelper(query);
         //const pr = await getMainSearchData<Product[] | Paging>("https://localhost:7198/api/Search", filter);
-        const pr = await getMainSearchData<Paging>("https://localhost:7198/api/Search", filter);
 
-        setProductsHelper(pr.dtos);
-        console.log(pr);
+
+
+        //console.log("search" + query);
+        navigate("search" + query);
         //Burada API' a tüm kategoriler içinde search için fetch yapıcam
         //
     }
     return (
-        <form className="input-group" >
-            <input type="search" className="form-control" placeholder="Search for products" onChange={handleChange} />
+        <div className="input-group" >
+            <input type="search" className="form-control" placeholder="Search for products" onChange={handleChange} value={mainSearchField} />
             <div className="input-group-append">
                 <span className="input-group-text bg-transparent text-primary">
-                    <Link to='/search' className="fa fa-search" onClick={handleClick} style={{ border: 0, color: "#D19C97", backgroundColor: "transparent" }}></Link>
+                    <button className="fa fa-search" onClick={handleClick} style={{ border: 0, color: "#D19C97", backgroundColor: "transparent" }}></button>
                 </span>
             </div>
-        </form>
+        </div>
     );
 }
 

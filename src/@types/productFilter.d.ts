@@ -10,5 +10,6 @@ export type ProductFilter = {
     Price3?: boolean;
     Price4?: boolean;
     Price5?: boolean;
+    pageIndex?: int;
 }
 
