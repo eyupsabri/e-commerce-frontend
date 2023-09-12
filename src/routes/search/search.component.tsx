@@ -27,7 +27,7 @@ const Search = () => {
 
         inner();
         console.log("bir");
-    }, []);
+    }, [searchParams]);
 
 
     return <Products products={products} />
