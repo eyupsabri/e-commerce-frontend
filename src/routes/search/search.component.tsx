@@ -18,7 +18,7 @@ const Search = () => {
 
     useEffect(() => {
         const inner = async () => {
-            const response = await getMainSearchData<Paging>("https://localhost:7198/api/Search?" + query);
+            const response = await getMainSearchData<Paging>("http://localhost:7198/api/Search?" + query);
             setProductsHelper(response.dtos);
         };
         const temp = searchParams.get("ProductName");

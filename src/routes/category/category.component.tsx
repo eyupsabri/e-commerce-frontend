@@ -17,7 +17,7 @@ const Category = () => {
   useEffect(() => {
     const inner = async () => {
       const deeper = await getMainSearchData<Paging>(
-        "https://localhost:7198/api/Products?categoryId=" + catId
+        "http://localhost:7198/api/Products?categoryId=" + catId
       );
       setProductsHelper(deeper.dtos);
     };

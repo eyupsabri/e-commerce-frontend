@@ -34,7 +34,7 @@ const SearchBox = () => {
         };
         const query = buildQuery(filter);
         queryFilterHelper(query);
-        //const pr = await getMainSearchData<Product[] | Paging>("https://localhost:7198/api/Search", filter);
+        //const pr = await getMainSearchData<Product[] | Paging>("http://localhost:7198/api/Search", filter);
 
 
 

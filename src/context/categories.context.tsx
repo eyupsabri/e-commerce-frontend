@@ -13,7 +13,7 @@ export const CategoriesContextProvider = ({ children }: Props) => {
     const [cats, setCats] = useState<Category[] | null>(null);
 
     const catsHelper = async () => {
-        const temp = await getCategoriesData<Category[]>("https://localhost:7198/api/Categories");
+        const temp = await getCategoriesData<Category[]>("http://localhost:7198/api/Categories");
         setCats([...temp]);
     }
 

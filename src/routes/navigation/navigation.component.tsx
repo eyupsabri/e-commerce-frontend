@@ -11,6 +11,7 @@ import CategoriesDropdown from '../../components/categories-dropdown/categories-
 
 const Navigation = () => {
 
+
     return (
         <Fragment>
             <div className="container-fluid">
